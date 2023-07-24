@@ -5,7 +5,7 @@
 
 REMOTE=`git remote get-url --push origin`
 rm -rf dist/spa
-SMARTDOWN_PREFIX=/editor yarn build
+SMARTDOWN_PREFIX=/editor/ yarn build
 rm -rf /tmp/smartdown-publish/
 cp -r dist/spa /tmp/smartdown-publish/
 cd /tmp/smartdown-publish/

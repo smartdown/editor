@@ -16,7 +16,7 @@
  *   })
  */
 
-import path from 'path';
+const path = require('path');
 
 const { contextBridge } = require('electron');
 

@@ -356,6 +356,8 @@ export default defineComponent({
 
     onBeforeMount(() => {
       const title = route.params.id;
+      // editMode.value.editing = true;
+      // editMode.value.source = false;
       if (title) {
         loadNote(title);
       } else {

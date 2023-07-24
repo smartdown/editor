@@ -25,6 +25,6 @@
 		"contentInset": "always"
 	},
 	"server": {
-		"url": "http://192.168.1.76:8080"
+		"url": "http://192.168.1.79:8080"
 	}
 }

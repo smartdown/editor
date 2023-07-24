@@ -67,6 +67,7 @@ module.exports = configure((ctx) => ({
 
     env: {
       packageVersion,
+      DEBUGGING: process.env.DEBUGGING,
       GALLERY_DEV_MODE: process.env.GALLERY_DEV_MODE || false,
       SMARTDOWN_PREFIX: smartdownPrefix,
     },

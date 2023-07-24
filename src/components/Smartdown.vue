@@ -29,11 +29,11 @@ export default {
   },
   setup(props) {
     const html = ref('');
-    const markdown = ref(props.initInput);
 
     const items = ref(['This', 'is']);
     const itemsQuantity = computed(() => items.value.length);
     const append = ref('');
+    let markdown;
 
     watch(
       // getter
@@ -69,7 +69,9 @@ export default {
         const cardPath = `gallery/${SQ.cardToLoad.value}.md`;
         console.log('cardPath', cardPath);
 
+        markdown = ref(props.initInput);
         markdown.value = await (await fetch(cardPath)).text();
+
         html.value = await smartdownToHTML(markdown.value);
         await nextTick();
         const outputDiv = document.getElementById('smartdown-output');
@@ -80,6 +82,7 @@ export default {
     });
 
     onMounted(async () => {
+      markdown = ref(props.initInput);
       html.value = await smartdownToHTML(markdown.value); // Is this necessary?
 
       await nextTick();

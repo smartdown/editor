@@ -16,7 +16,6 @@ catch (_) { }
 let mainWindow
 
 function createWindow () {
-
   /**
    * Initial window options
    */
@@ -26,14 +25,17 @@ function createWindow () {
     height: 600,
     useContentSize: true,
     webPreferences: {
+      nodeIntegration: true,
       contextIsolation: true,
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     }
   })
 
-
   mainWindow.loadURL(process.env.APP_URL)
+
+  // console.log('#process.env.APP_URL', process.env.APP_URL);
+  // console.log('#process.env.DEBUGGING', process.env.DEBUGGING);
 
   if (process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
