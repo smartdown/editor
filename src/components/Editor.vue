@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import hljs from 'highlight.js/lib/common';
-import { highlightPlugin } from 'prosemirror-highlightjs';
+// import hljs from 'highlight.js/lib/common';
+// import { highlightPlugin } from 'prosemirror-highlightjs';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { schema, defaultMarkdownParser, defaultMarkdownSerializer } from 'prosemirror-markdown';
@@ -13,15 +13,45 @@ import 'highlight.js/styles/base16/tomorrow-night.css';
 
 const createState = (content) => {
   const plugins = exampleSetup({ schema });
-  const hljsPlugin = highlightPlugin(hljs);
+  // const hljsPlugin = highlightPlugin(hljs);
 
-  plugins.push(hljsPlugin);
+  // plugins.push(hljsPlugin);
 
   return EditorState.create({
     doc: defaultMarkdownParser.parse(content),
     plugins,
   });
 };
+
+//
+// This is an interim hack to prevent exponential escaping of MathJax expressions.
+// It is imperfect, because double-escapes in non-MathJax expressions will
+// be removed.
+//
+// See:
+//  https://github.com/ProseMirror/prosemirror-markdown
+//  https://github.com/ProseMirror/prosemirror/issues/562
+//
+// A correct fix relies upon creating a smarter serializer (non-default), and/or
+// modifying the ProseMirror instance to be aware of MathJax.
+//
+// Example that illustrates dysfunction (paste this into ProseMirror). The first
+// console.log will lose its 4 escapes and be converted into two escapes during
+// markdown serialization. However, the \longrightarrow will successfully
+// be converted to MathJax in Markdown. Without unescapeMathJax(), the MathJax
+// would be incorrectly double-escaped, and therefore ill-formatted for MathJax.
+//
+//    console.log('Single Escape\nDouble Escape\\\\n');
+//
+//    `console.log('Single Escape\nDouble Escape\\\\n');`
+//
+//    $A \longrightarrow B$
+//
+
+function unescapeMathJax(s) {
+  const result = s.replaceAll('\\\\', '\\');
+  return result;
+}
 
 export default {
   name: 'Editor',
@@ -43,6 +73,7 @@ export default {
           this.view.updateState(this.state);
         }
         this.lastValue = defaultMarkdownSerializer.serialize(this.state.doc);
+        this.lastValue = unescapeMathJax(this.lastValue);
         this.$emit('update:modelValue', this.lastValue);
       },
     });
@@ -55,6 +86,7 @@ export default {
       }
     },
     modelValue(newValue) {
+      console.log('modelValue', this.lastValue, newValue, newValue !== this.lastValue);
       if (newValue !== this.lastValue) {
         this.state = createState(newValue);
         this.view.updateState(this.state);

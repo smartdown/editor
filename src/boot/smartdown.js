@@ -4,6 +4,7 @@
 //  - No access to router, Vuex store, ...
 
 /* global smartdown */
+/* global MathJax */
 
 import SQ from 'src/composables/SQ';
 import { deleteAllNotes, loadGalleryNotes, prefetchGalleryNotes } from 'src/composables/notes';
@@ -23,7 +24,7 @@ export default async (/* { app } */) => {
   //      ("new Vue(app)" -- do NOT call this by yourself),
   //  - ...
 
-  const icons = {
+  const media = {
     // cloud: '/gallery/resources/cloud.jpg',
     // badge: '/gallery/resources/badge.svg',
     // hypercube: '/gallery/resources/Hypercube.svg',
@@ -102,20 +103,32 @@ export default async (/* { app } */) => {
   };
 
   const smartdownPrefix = process.env.SMARTDOWN_PREFIX || '';
+  // const baseURL = `${smartdownPrefix}/`;
   const baseURL = window.publicFolder || `${smartdownPrefix}/`;
   const resultPromise = new Promise((resolve) => {
-    smartdown.initialize(
-      icons,
+    const xypicURL = 'https://unpkg.com/smartdown@1.0.64/dist/lib/xypic.js';
+    const options = {
+      media,
       baseURL,
-      async () => {
-        doneHandler();
-        window.setTimeout(locationHashChanged, 1000);
-        resolve();
-      },
       cardLoader,
       calcHandlers,
       linkRules,
-    );
+      xypicURL,
+    };
+
+    const loadedHandler = async () => {
+      MathJax.Hub.Config({
+        'fast-preview': {
+          disabled: true,
+        },
+      });
+
+      doneHandler();
+      window.setTimeout(locationHashChanged, 1000);
+      resolve();
+    };
+
+    smartdown.configure(options, loadedHandler);
   });
 
   return resultPromise;
