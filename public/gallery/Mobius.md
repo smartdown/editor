@@ -4,7 +4,7 @@
 [Thickness[8]](:?SEG_WIDTH|number)
 [Width[50]](:?SEG_LENGTH|number)
 
-```p5js/playable/autoplay
+```javascript /p5js/playable/autoplay
 var PI = Math.PI;
 var HALF_PI = PI / 2.0;
 

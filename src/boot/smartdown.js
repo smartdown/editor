@@ -7,7 +7,12 @@
 /* global MathJax */
 
 import SQ from 'src/composables/SQ';
-import { deleteAllNotes, loadGalleryNotes, prefetchGalleryNotes } from 'src/composables/notes';
+import {
+  deleteAllNotes,
+  loadGalleryNotes,
+  loadGalleryNotesIfEmpty,
+  prefetchGalleryNotes,
+} from 'src/composables/notes';
 
 // export default async ({ app, router, store }) => {
 export default async (/* { app } */) => {
@@ -60,6 +65,8 @@ export default async (/* { app } */) => {
   if (process.env.GALLERY_DEV_MODE) {
     deleteAllNotes();
     loadGalleryNotes();
+  } else {
+    loadGalleryNotesIfEmpty();
   }
 
   function scrollToSubHash(cardKeySubhash) {

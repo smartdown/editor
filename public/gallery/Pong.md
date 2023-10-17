@@ -1,4 +1,4 @@
-```P5JS /playable/autoplay/kiosk
+```javascript /P5JS/playable/autoplay/kiosk
 
 // https://kellylougheed.medium.com/javascript-pong-with-p5-js-3ae1b859418c
 // Variables for the ball

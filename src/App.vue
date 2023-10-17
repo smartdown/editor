@@ -12,7 +12,7 @@ export default defineComponent({
     initStore();
 
     window.SmartdownEditor = {
-      version: '0.0.12',
+      version: '0.0.13',
     };
   },
 });

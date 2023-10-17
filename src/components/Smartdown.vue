@@ -16,7 +16,6 @@
 /* global SQ */
 import {
   ref,
-  computed,
   watch,
   onMounted,
   nextTick,
@@ -27,29 +26,11 @@ export default {
     title: String,
     initInput: String,
   },
+
   setup(props) {
     const html = ref('');
 
-    const items = ref(['This', 'is']);
-    const itemsQuantity = computed(() => items.value.length);
-    const append = ref('');
-    let markdown;
-
-    watch(
-      // getter
-      () => items.value,
-      // callback
-      (currentItems) => {
-        append.value = '';
-        currentItems.forEach((currentItem) => {
-          append.value = `${currentItem} `;
-        });
-      },
-      // watch Options
-      {
-        lazy: false, // immediate: true
-      },
-    );
+    const markdown = ref(props.initInput);
 
     async function smartdownToHTML(text) {
       const resultPromise = new Promise((resolve) => {
@@ -69,7 +50,6 @@ export default {
         const cardPath = `gallery/${SQ.cardToLoad.value}.md`;
         console.log('cardPath', cardPath);
 
-        markdown = ref(props.initInput);
         markdown.value = await (await fetch(cardPath)).text();
 
         html.value = await smartdownToHTML(markdown.value);
@@ -82,7 +62,6 @@ export default {
     });
 
     onMounted(async () => {
-      markdown = ref(props.initInput);
       html.value = await smartdownToHTML(markdown.value); // Is this necessary?
 
       await nextTick();
@@ -94,9 +73,6 @@ export default {
 
     return {
       markdown,
-      items,
-      itemsQuantity,
-      append,
       html,
     };
   },

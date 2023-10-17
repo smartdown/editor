@@ -68,6 +68,14 @@ export function loadGalleryNotes() {
   notes.value.push(...newNotes);
 }
 
+export function loadGalleryNotesIfEmpty() {
+  if (notes.value.length === 0) {
+    console.log('loadGalleryNotesIfEmpty');
+    const newNotes = structuredClone(galleryNotes);
+    notes.value.push(...newNotes);
+  }
+}
+
 export function loadNoteByTitle(lookupTitle) {
   const result = notes.value.find((note) => note.title === lookupTitle);
 

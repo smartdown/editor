@@ -38,7 +38,7 @@ export default {
         stickyTabStops: false,
         insertSpaces: true,
         formattingOptions: {
-          tabSize: 4,
+          tabSize: 2,
           insertSpaces: true,
         },
       },
@@ -52,17 +52,9 @@ export default {
     this.original = this.modelValue;
   },
   watch: {
-    // focused(newValue) {
-    //   if (newValue) {
-    //     this.$refs['prism-editor'].$refs.textarea.focus();
-    //   }
-    // },
-    currentValue(newValue) {
-      console.log('currentValue', newValue, this.value);
-      if (newValue !== this.value) {
-        this.value = newValue;
-        this.$emit('update:modelValue', this.value);
-      }
+    modelValue(newValue) {
+      // console.log('modelValue', this.value, newValue);
+      this.value = newValue;
     },
   },
   methods: {

@@ -1,6 +1,6 @@
 {
   "name": "smartdown-editor",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Smartdown Editor via Quasar/VueJS",
   "author": "Daniel B Keith",
   "private": true,
