@@ -86,10 +86,11 @@ export default {
       }
     },
     modelValue(newValue) {
-      console.log('modelValue', this.lastValue, newValue, newValue !== this.lastValue);
+      // console.log('modelValue', this.lastValue, newValue, newValue !== this.lastValue);
       if (newValue !== this.lastValue) {
         this.state = createState(newValue);
         this.view.updateState(this.state);
+        // this.$emit('update:modelValue', newValue);
       }
     },
   },

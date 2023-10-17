@@ -2,7 +2,8 @@
   <q-page>
     <Container>
       <div
-        v-if="note">
+        v-if="note"
+        ref="noteDiv">
         <div
           v-if="editMode.editing">
           <Editor
@@ -12,14 +13,14 @@
             :focused="focus" />
 
           <SourceEditor
-            v-else
+            v-if="editMode.source"
             class="full-width edit-border"
             v-model="note.content"
             :focused="focus" />
         </div>
 
         <div
-          v-else>
+          v-if="!editMode.editing">
           <smartdown
             class="q-mt-md q-pa-sm readonly-border"
             :initInput="note.content">
@@ -54,6 +55,7 @@ export default {
     SourceEditor,
   },
   setup() {
+    const noteDiv = ref(null);
     const focus = ref(true);
     const store = useStore();
     const note = computed({
@@ -72,6 +74,13 @@ export default {
     watch(
       editMode,
       () => {
+        const div = noteDiv.value;
+        div.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+
         if (editMode.value.source && !oldSource) {
           editMode.value.editing = true;
         }
@@ -88,7 +97,7 @@ export default {
     );
 
     return {
-      note, editMode, focus,
+      noteDiv, note, editMode, focus,
     };
   },
 };

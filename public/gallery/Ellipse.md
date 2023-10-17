@@ -1,6 +1,6 @@
 #### P5JS Ellipse Example
 
-```p5js/playable
+```/javascript /p5js/playable
 p5.setup = function() {
 };
 
